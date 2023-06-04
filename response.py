@@ -4,7 +4,7 @@ import random
 import json
 
 
-apikey = "AIzaSyCnwtnu-IILay5YEuOxnyTT8ObLe7caLfY"  # click to set to your apikey
+apikey = "token"
 limit = 10
 ckey = "My Project"  # set the client_key for the integration and use the same value for all API calls
 #Retrieves GIF from site
