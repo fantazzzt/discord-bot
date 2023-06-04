@@ -6,7 +6,7 @@ import datetime
 
 
 apikey = # click to set to your apikey
-limit = 10
+limit = 5
 ckey = "My Project"  # set the client_key for the integration and use the same value for all API calls
 #Retrieves GIF from site
 
@@ -14,7 +14,7 @@ def get_gif(searchTerm):
 
     r = requests.get("https://tenor.googleapis.com/v2/search?q=%s&key=%s&client_key=%s&limit=%s" % (searchTerm, apikey, ckey,  limit))
     data =  json.loads(r.content)
-    gif_choice = random.randint(0,9)
+    gif_choice = random.randint(0,4)
     url = data["results"][gif_choice]["url"]
     return url
 
