@@ -47,7 +47,7 @@ async def background_task():
         await asyncio.sleep(seconds)   # Sleep until tomorrow and then the loop will start a new iteration
     
 def run_discord_bot():
-    TOKEN = 'MTExNDAzMTU2MTc0MzAxNjAwNw.GEfs3e.kgIP6SC81TB0yzGyGs-FwS684YZ6NGFmiPVhXA'
+    TOKEN = 'token'
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)
