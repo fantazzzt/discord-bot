@@ -1,9 +1,8 @@
 import discord
 import response
 from discord.ext import commands, tasks
-import asyncio
-import time
 from datetime import datetime
+import pytz
 
 
 # async def send_message(message, user_message, is_private):
@@ -69,8 +68,9 @@ async def send_message_gif(message, user_message):
 #         return True
 #     return False
 def get_time_until_launch():
-    now = datetime.now()
-    launch_time = datetime(2023, 6, 15, 10, 0, 0)  # June 14th, 2023 at 10:00 AM CST
+    cst = pytz.timezone('US/Central')
+    now = datetime.now(cst)
+    launch_time = datetime(2023, 6, 15, 10, 0, 0, tzinfo=cst)  # June 14th, 2023 at 10:00 AM CST
     if now >= launch_time:
         return None  # Return None after the launch time has passed
     else:
@@ -120,6 +120,4 @@ def run_discord_bot():
 
     client.run(TOKEN)
 
-
-    client.run(TOKEN)
 
