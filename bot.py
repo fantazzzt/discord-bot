@@ -3,6 +3,7 @@ import response
 from discord.ext import commands, tasks
 import asyncio
 import time
+from datetime import datetime
 
 
 # async def send_message(message, user_message, is_private):
@@ -67,8 +68,14 @@ async def send_message_gif(message, user_message):
 #         last_executed = time.time()
 #         return True
 #     return False
-
-
+def get_time_until_launch():
+    now = datetime.now()
+    launch_time = datetime(2023, 6, 15, 10, 0, 0)  # June 14th, 2023 at 10:00 AM CST
+    if now >= launch_time:
+        return None  # Return None after the launch time has passed
+    else:
+        time_until_launch = launch_time - now
+        return time_until_launch.total_seconds() // 3600  # Convert to hours
 
 def run_discord_bot():
     TOKEN = ''
@@ -79,18 +86,21 @@ def run_discord_bot():
     @client.event
     async def on_ready():
         print(f'{client.user} is now running!')
-        myLoop.start()
+        launch_countdown.start()
 
 
-    @tasks.loop(hours = 1.0)
-    async def myLoop():
-        t = 20
-        channel = await client.fetch_channel()
-        if t == 0:
-            await channel.send('Battlebit is here!!!!')
-        elif t>0:
-            await channel.send('Battlebit will be here in ' + str(t) + ' hours!!!111!')
-        t = t-1
+    @tasks.loop(hours=1)
+    async def launch_countdown():
+        time_until_launch = get_time_until_launch()
+        channel = await client.fetch_channel(channel_id)
+        if time_until_launch is None:
+            await channel.send("battlebit has released.")
+            launch_countdown.stop()
+        else:
+            await channel.send(f"{time_until_launch} hours until battlebit launch!")
+
+
+
 
     @client.event
     async def on_message(message):
@@ -107,6 +117,9 @@ def run_discord_bot():
         # Debug printing
         print(f"{username} said: '{user_message}' ({channel})")
         await send_message_gif(message, user_message)
+
+    client.run(TOKEN)
+
 
     client.run(TOKEN)
 
